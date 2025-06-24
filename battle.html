@@ -34,17 +34,14 @@
     function attack() {
       if (playerHP <= 0 || enemyHP <= 0) return;
 
-      // 玩家攻击
       const playerDmg = Math.floor(Math.random() * 10) + 10;
       enemyHP -= playerDmg;
       if (enemyHP < 0) enemyHP = 0;
 
-      // 敌人反击
       const enemyDmg = Math.floor(Math.random() * 8) + 5;
       playerHP -= enemyDmg;
       if (playerHP < 0) playerHP = 0;
 
-      // 更新显示
       document.getElementById('playerHP').innerText = playerHP;
       document.getElementById('enemyHP').innerText = enemyHP;
 

@@ -48,28 +48,26 @@
       tile.className = 'tile';
       tile.innerText = label.slice(0, 2);
       tile.onclick = () => {
-        let result = "";
         switch(label) {
           case "采集区":
-            result = "你在采集区获得了1个藿香！";
             const h = parseInt(localStorage.getItem('藿香') || 0) + 1;
             localStorage.setItem('藿香', h);
+            log.innerText = "你在采集区获得了1个藿香！";
             break;
           case "怪物区":
-  window.location.href = "battle.html";
-  return;
+            window.location.href = "battle.html";
+            break;
           case "宝箱":
-            result = "你打开宝箱，获得1金币！";
             const c = parseInt(localStorage.getItem('金币') || 0) + 1;
             localStorage.setItem('金币', c);
+            log.innerText = "你打开宝箱，获得1金币！";
             break;
           case "Boss":
-            result = "Boss 正在沉睡……（战斗系统开发中）";
+            log.innerText = "Boss 正在沉睡……（战斗系统开发中）";
             break;
           default:
-            result = "这里似乎什么都没有。";
+            log.innerText = "这里似乎什么都没有。";
         }
-        log.innerText = result;
       };
       map.appendChild(tile);
     });
