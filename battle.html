@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Battle - Newgate</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .battle-box {
+      border: 2px solid #fff;
+      padding: 20px;
+      max-width: 400px;
+      margin: 20px auto;
+    }
+    .health {
+      height: 20px;
+      background: green;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>你遇到了一只野狼！</h2>
+  <div class="battle-box">
+    <p>你的 HP: <span id="playerHP">100</span></p>
+    <p>野狼 HP: <span id="enemyHP">50</span></p>
+    <button onclick="attack()">攻击</button>
+    <div id="log" style="margin-top: 15px;"></div>
+  </div>
+  <script>
+    let playerHP = 100;
+    let enemyHP = 50;
+    const log = document.getElementById('log');
+
+    function attack() {
+      if (playerHP <= 0 || enemyHP <= 0) return;
+
+      // 玩家攻击
+      const playerDmg = Math.floor(Math.random() * 10) + 10;
+      enemyHP -= playerDmg;
+      if (enemyHP < 0) enemyHP = 0;
+
+      // 敌人反击
+      const enemyDmg = Math.floor(Math.random() * 8) + 5;
+      playerHP -= enemyDmg;
+      if (playerHP < 0) playerHP = 0;
+
+      // 更新显示
+      document.getElementById('playerHP').innerText = playerHP;
+      document.getElementById('enemyHP').innerText = enemyHP;
+
+      if (enemyHP === 0) {
+        const gold = parseInt(localStorage.getItem('金币') || 0) + 3;
+        localStorage.setItem('金币', gold);
+        log.innerText = `你造成了 ${playerDmg} 点伤害并击败了野狼！获得3金币。`;
+      } else if (playerHP === 0) {
+        log.innerText = `你受到 ${enemyDmg} 点伤害，被野狼击败了！`;
+      } else {
+        log.innerText = `你造成 ${playerDmg} 点伤害，野狼反击造成 ${enemyDmg} 点伤害。`;
+      }
+    }
+  </script>
+</body>
+</html>
