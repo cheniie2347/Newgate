@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Backpack</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>Your Backpack</h2>
+  <div id="items"></div>
+  <script>
+    const resources = ['Wood', 'Iron', 'Sword'];
+    let html = '';
+    for (let item of resources) {
+      const count = localStorage.getItem(item) || 0;
+      html += `<p>${item}: ${count}</p>`;
+    }
+    document.getElementById('items').innerHTML = html;
+  </script>
+</body>
+</html>

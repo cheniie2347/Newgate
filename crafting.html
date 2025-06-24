@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Crafting</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>Crafting Station</h2>
+  <p>Recipe: 2 Wood + 1 Iron = 1 Sword</p>
+  <button onclick="craft()">Craft Sword</button>
+  <div id="log"></div>
+  <script>
+    function craft() {
+      let wood = parseInt(localStorage.getItem('Wood') || 0);
+      let iron = parseInt(localStorage.getItem('Iron') || 0);
+      if (wood >= 2 && iron >= 1) {
+        wood -= 2;
+        iron -= 1;
+        localStorage.setItem('Wood', wood);
+        localStorage.setItem('Iron', iron);
+        const sword = parseInt(localStorage.getItem('Sword') || 0) + 1;
+        localStorage.setItem('Sword', sword);
+        document.getElementById('log').innerText = 'Crafted 1 Sword! Total: ' + sword;
+      } else {
+        document.getElementById('log').innerText = 'Not enough materials!';
+      }
+    }
+  </script>
+</body>
+</html>

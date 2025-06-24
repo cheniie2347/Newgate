@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Gather</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>Gathering Area</h2>
+  <button onclick="gather('Wood')">Collect Wood</button>
+  <button onclick="gather('Iron')">Collect Iron</button>
+  <div id="log"></div>
+  <script>
+    function gather(item) {
+      const count = localStorage.getItem(item) || 0;
+      localStorage.setItem(item, parseInt(count) + 1);
+      document.getElementById('log').innerText = item + ' gathered! Total: ' + localStorage.getItem(item);
+    }
+  </script>
+</body>
+</html>
