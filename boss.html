@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Boss Battle - Newgate</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .battle-box {
+      border: 2px solid #fff;
+      padding: 20px;
+      max-width: 450px;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <h2>你面对的是——暴怒熊王！</h2>
+  <div class="battle-box">
+    <p>你的 HP: <span id="playerHP">100</span></p>
+    <p>熊王 HP: <span id="bossHP">150</span></p>
+    <button onclick="attack()">攻击</button>
+    <div id="log" style="margin-top: 15px;"></div>
+  </div>
+  <script>
+    let playerHP = 100;
+    let bossHP = 150;
+    let round = 1;
+    const log = document.getElementById('log');
+
+    function attack() {
+      if (playerHP <= 0 || bossHP <= 0) return;
+
+      const playerDmg = Math.floor(Math.random() * 11) + 15; // 15~25
+      bossHP -= playerDmg;
+      if (bossHP < 0) bossHP = 0;
+
+      let bossDmg;
+      if (round % 3 === 0) {
+        bossDmg = Math.floor(Math.random() * 9 + 12) * 2; // 暴击回合
+      } else {
+        bossDmg = Math.floor(Math.random() * 9 + 12); // 12~20
+      }
+
+      playerHP -= bossDmg;
+      if (playerHP < 0) playerHP = 0;
+
+      document.getElementById('playerHP').innerText = playerHP;
+      document.getElementById('bossHP').innerText = bossHP;
+
+      if (bossHP === 0) {
+        const gold = parseInt(localStorage.getItem('金币') || 0) + 10;
+        localStorage.setItem('金币', gold);
+        log.innerText = `你击败了熊王，获得10金币与荣誉徽章！（战利品系统开发中）`;
+      } else if (playerHP === 0) {
+        log.innerText = `你被熊王击败……请增强实力后再来挑战。`;
+      } else {
+        log.innerText = `你造成了 ${playerDmg} 伤害，熊王造成了 ${bossDmg} 伤害。`;
+      }
+
+      round++;
+    }
+  </script>
+</body>
+</html>
