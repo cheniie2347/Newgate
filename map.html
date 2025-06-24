@@ -56,8 +56,8 @@
             localStorage.setItem('藿香', h);
             break;
           case "怪物区":
-            result = "你遭遇了一只野狼！战斗暂未开放。";
-            break;
+  window.location.href = "battle.html";
+  return;
           case "宝箱":
             result = "你打开宝箱，获得1金币！";
             const c = parseInt(localStorage.getItem('金币') || 0) + 1;
