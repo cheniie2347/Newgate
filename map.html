@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Newgate Map</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
+    body {
+      background-color: #222;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+    }
     .map {
       display: grid;
       grid-template-columns: repeat(5, 64px);
@@ -28,7 +33,7 @@
   </style>
 </head>
 <body>
-  <h2>Newgate 探索地图</h2>
+  <h1>Newgate 探索地图</h1>
   <p>点击任意区域探索资源或怪物！</p>
   <div class="map" id="map"></div>
   <div id="log" style="margin-top:20px;"></div>
@@ -48,26 +53,28 @@
       tile.className = 'tile';
       tile.innerText = label.slice(0, 2);
       tile.onclick = () => {
+        let result = "";
         switch(label) {
           case "采集区":
+            result = "你在采集区获得了1个藿香！";
             const h = parseInt(localStorage.getItem('藿香') || 0) + 1;
             localStorage.setItem('藿香', h);
-            log.innerText = "你在采集区获得了1个藿香！";
             break;
           case "怪物区":
-            window.location.href = "battle.html";
+            result = "你遭遇了一只野狼！战斗暂未开放。";
             break;
           case "宝箱":
+            result = "你打开宝箱，获得1金币！";
             const c = parseInt(localStorage.getItem('金币') || 0) + 1;
             localStorage.setItem('金币', c);
-            log.innerText = "你打开宝箱，获得1金币！";
             break;
           case "Boss":
-  window.location.href = "boss.html";
-  break;
+            result = "Boss 正在沉睡……（战斗系统开发中）";
+            break;
           default:
-            log.innerText = "这里似乎什么都没有。";
+            result = "这里似乎什么都没有。";
         }
+        log.innerText = result;
       };
       map.appendChild(tile);
     });
