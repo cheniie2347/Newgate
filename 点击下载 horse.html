@@ -1,0 +1,52 @@
+<html><head><meta charset="utf-8"><style>
+body{background:#111;color:#fff;font-family:monospace;text-align:center;padding:30px}
+button{padding:10px;margin:10px}
+</style></head><body>
+<h2>🐎 马匹系统</h2>
+<div id="horseInfo"></div>
+<button onclick="transport()">运输资源</button>
+<script>
+let 马匹 = {
+ name: "小马",
+ maxWeight: 10,
+ maxStamina: 5
+};
+function getData(){
+ let stamina = parseInt(localStorage.getItem("马体力")||马匹.maxStamina);
+ let runs = parseInt(localStorage.getItem("马运输次数")||0);
+ return {stamina, runs};
+}
+function transport(){
+ let data = getData();
+ if(data.stamina <= 0){
+   alert("马匹太累了，需要休息！");
+   return;
+ }
+ data.stamina -= 1;
+ localStorage.setItem("马体力", data.stamina);
+ localStorage.setItem("马运输次数", data.runs+1);
+
+ let log = "运输成功，负重：" + 马匹.maxWeight + " 单位。";
+ let gain = 5;
+ let 被打劫 = Math.random() < 0.2;
+ if(被打劫){
+   gain = 2;
+   log += "\n⚠️ 路上遇到打劫，损失部分物资！";
+ }
+ let coin = parseInt(localStorage.getItem("金币")||0);
+ coin += gain;
+ localStorage.setItem("金币", coin);
+ log += "\n获得金币：" + gain + "，当前金币：" + coin;
+ alert(log);
+ show();
+}
+function show(){
+ let data = getData();
+ document.getElementById("horseInfo").innerHTML =
+ `🐴 马匹：${马匹.name}<br>
+ 💼 负重：${马匹.maxWeight}<br>
+ ⚡ 体力：${data.stamina} / ${马匹.maxStamina}<br>
+ 🧾 累计运输次数：${data.runs}<br>`;
+}
+show();
+</script></body></html>
