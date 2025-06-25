@@ -1,0 +1,47 @@
+<html><head><meta charset="utf-8"><style>
+body{background:#111;color:#fff;font-family:monospace;text-align:center;padding:30px}
+button{padding:10px;margin:10px}
+</style></head><body>
+<h2>🏗️ 建筑系统</h2>
+<div id="buildings"></div>
+<script>
+const names = ['仓库', '农田', '箭塔'];
+const effects = {
+ '仓库': [100, 200, 400],
+ '农田': [1, 2, 3],
+ '箭塔': [5, 10, 20]
+};
+const cost = {
+ '仓库': [10, 20],
+ '农田': [8, 16],
+ '箭塔': [12, 24]
+};
+function upgrade(name){
+ let lvl = parseInt(localStorage.getItem('建筑_'+name)||1);
+ if(lvl >= 3){alert("已达最高等级"); return;}
+ let 银币 = parseInt(localStorage.getItem('金币')||0);
+ let need = cost[name][lvl-1];
+ if(银币 < need){alert("银币不足！需要："+need); return;}
+ 银币 -= need;
+ localStorage.setItem('金币', 银币);
+ localStorage.setItem('建筑_'+name, lvl+1);
+ alert(name+"已升级到 Lv."+ (lvl+1));
+ show();
+}
+function show(){
+ let html = '';
+ for(let n of names){
+   let lvl = parseInt(localStorage.getItem('建筑_'+n)||1);
+   let eff = effects[n][lvl-1];
+   html += `<p>【${n}】Lv.${lvl} ➤ 效果：${eff}${n==='仓库'?' 储量':' 产出'} `;
+   if(lvl < 3){
+     html += `<br><button onclick="upgrade('${n}')">升级（${cost[n][lvl-1]}金币）</button>`;
+   } else {
+     html += "<br><span>已达最高等级</span>";
+   }
+   html += "</p><hr>";
+ }
+ document.getElementById('buildings').innerHTML = html;
+}
+show();
+</script></body></html>
