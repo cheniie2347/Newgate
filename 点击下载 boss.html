@@ -1,0 +1,81 @@
+<html><head><meta charset="utf-8"><style>
+body{background:#000;color:#fff;font-family:monospace;text-align:center;padding:30px}
+button{padding:10px;margin:10px}
+.bar{height:20px;background:#444;margin:5px auto;width:80%;text-align:left}
+.hp{background:#c33;height:100%;color:#fff;padding-left:5px}
+</style></head><body>
+<h2>👹 Boss 战：地狱野猪</h2>
+<div>🎯 Boss HP</div>
+<div class="bar"><div id="bossHp" class="hp" style="width:100%">100 / 100</div></div>
+<div>🧍 玩家 HP</div>
+<div class="bar"><div id="playerHp" class="hp" style="width:100%">100 / 100</div></div>
+<div>宠物攻击：每回合 5 点</div>
+<br>
+<button onclick="attack()">普通攻击</button>
+<button onclick="skill()">猛击（1.5倍伤害）</button>
+<div id="log" style="white-space:pre-line;margin-top:20px"></div>
+<script>
+let boss = {hp:100, max:100, skillCd:3};
+let player = {hp:100, max:100, atk:10, skillCd:0};
+function updateBar(){
+ document.getElementById("bossHp").style.width = (boss.hp/boss.max*100)+"%";
+ document.getElementById("bossHp").innerText = boss.hp+" / "+boss.max;
+ document.getElementById("playerHp").style.width = (player.hp/player.max*100)+"%";
+ document.getElementById("playerHp").innerText = player.hp+" / "+player.max;
+}
+function log(msg){
+ document.getElementById("log").innerText = msg + "\n" + document.getElementById("log").innerText;
+}
+function endGame(win){
+ if(win){
+   let coin = parseInt(localStorage.getItem("金币")||0);
+   coin += 10;
+   localStorage.setItem("金币", coin);
+   log("✅ 战斗胜利！掉落金币 +10");
+ } else {
+   log("❌ 你被击败了...");
+ }
+ document.querySelectorAll("button").forEach(b=>b.disabled=true);
+}
+function attack(){
+ let dmg = player.atk;
+ boss.hp -= dmg;
+ log("你对Boss造成 "+dmg+" 点伤害");
+ turn();
+}
+function skill(){
+ if(player.skillCd > 0){
+   log("技能冷却中！");
+   return;
+ }
+ let dmg = Math.floor(player.atk * 1.5);
+ boss.hp -= dmg;
+ player.skillCd = 3;
+ log("使用猛击，造成 "+dmg+" 点伤害");
+ turn();
+}
+function turn(){
+ // 宠物攻击
+ boss.hp -= 5;
+ log("🐾 宠物造成 5 点伤害");
+ if(boss.hp <= 0){ boss.hp = 0; updateBar(); endGame(true); return; }
+
+ // Boss 行动
+ if(boss.skillCd <= 1){
+   player.hp -= 20;
+   boss.skillCd = 3;
+   log("💥 Boss 使用野蛮冲撞！造成 20 点伤害");
+ } else {
+   player.hp -= 10;
+   boss.skillCd--;
+   log("Boss 普通攻击 造成 10 点伤害");
+ }
+ if(player.hp <= 0){ player.hp = 0; updateBar(); endGame(false); return; }
+
+ // 技能冷却
+ if(player.skillCd > 0) player.skillCd--;
+
+ updateBar();
+}
+updateBar();
+</script></body></html>
