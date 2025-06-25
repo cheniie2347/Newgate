@@ -1,0 +1,1 @@
+<html><body><h2>选择出战宠物</h2><ul><li>哈士奇<button onclick="choose('哈士奇')">选择</button></li><li>猫咪<button onclick="choose('猫咪')">选择</button></li><li>小野狼<button onclick="choose('小野狼')">选择</button></li></ul><p id='result'></p><script>function choose(name){localStorage.setItem('当前宠物', name);document.getElementById('result').innerText='已选择宠物：'+name;}</script></body></html>

@@ -1,11 +1,1 @@
-body {
-  font-family: 'Courier New', monospace;
-  background-color: #222;
-  color: #fff;
-  text-align: center;
-  padding: 50px;
-}
-button {
-  margin: 10px;
-  padding: 10px 20px;
-}
+body{background:#222;color:#fff;font-family:monospace;text-align:center;padding:40px}button{margin:10px;padding:10px 20px}
