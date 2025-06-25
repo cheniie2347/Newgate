@@ -1,8 +1,1 @@
-<html><body><h2>宠物</h2><div id='list'></div><script>
-const pets=['哈士奇','猫咪','小野狼'];let html='';
-for(let p of pets){let lvl=localStorage.getItem('petLevel_'+p)||1;
-let xp=localStorage.getItem('petXP_'+p)||0;
-html+=`<p>${p} Lv.${lvl}（经验${xp}） <button onclick="setPet('${p}')">出战</button></p>`;}
-document.getElementById('list').innerHTML=html;
-function setPet(p){localStorage.setItem('当前宠物',p);alert('已选择：'+p);}
-</script></body></html>
+<html><body><h2>宠物系统</h2><p>查看与升级宠物</p></body></html>

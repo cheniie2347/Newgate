@@ -1,9 +1,1 @@
-<html><body><h2>背包</h2><div id='info'></div>
-<button onclick="location.href='weapon.html'">管理武器</button>
-<button onclick="location.href='pet.html'">管理宠物</button>
-<script>
-function get(k,v){return parseInt(localStorage.getItem(k)||v);}
-let lvl=get('playerLevel',1),xp=get('playerXP',0),w=localStorage.getItem('当前武器')||'铁剑';
-let p=localStorage.getItem('当前宠物')||'哈士奇',plvl=get('petLevel_'+p,1),pxp=get('petXP_'+p,0);
-document.getElementById('info').innerHTML=`人物等级：${lvl}（经验${xp}）<br>当前武器：${w}<br>宠物：${p} Lv.${plvl}（经验${pxp}）`;
-</script></body></html>
+<html><body><h2>背包</h2><p>显示人物与宠物信息</p></body></html>
