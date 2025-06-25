@@ -1,1 +1,7 @@
-<html><body><h2>选择你要装备的武器</h2><ul><li>铁剑（+10）<button onclick="equip('铁剑')">装备</button></li><li>烈焰斧（+15）<button onclick="equip('烈焰斧')">装备</button></li><li>猎弓（+8）<button onclick="equip('猎弓')">装备</button></li></ul><p id='result'></p><script>function equip(name){localStorage.setItem('当前武器', name);document.getElementById('result').innerText='已装备：'+name;}</script></body></html>
+<html><body><h2>武器</h2><ul>
+<li>铁剑（+10）<button onclick="equip('铁剑')">装备</button></li>
+<li>烈焰斧（+15）<button onclick="equip('烈焰斧')">装备</button></li>
+<li>猎弓（+8）<button onclick="equip('猎弓')">装备</button></li>
+</ul><p id='r'></p><script>
+function equip(w){localStorage.setItem('当前武器',w);document.getElementById('r').innerText='已装备：'+w;}
+</script></body></html>

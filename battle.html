@@ -1,1 +1,23 @@
-<html><body><h2>战斗开始</h2><p>你的HP: <span id='playerHP'>100</span></p><p>敌人HP: <span id='enemyHP'>60</span></p><p id='weaponDisplay'></p><p id='petDisplay'></p><button onclick='attack()'>攻击</button><button id='skillBtn' onclick='useSkill()'>猛击</button><div id='log'></div><script>let hp=100,ehp=60,cd=0;const wm={'铁剑':10,'烈焰斧':15,'猎弓':8},pm={'哈士奇':5,'猫咪':0,'小野狼':7};const w=localStorage.getItem('当前武器')||'铁剑',p=localStorage.getItem('当前宠物')||'哈士奇';document.getElementById('weaponDisplay').innerText='装备：'+w+'（+'+wm[w]+'）';document.getElementById('petDisplay').innerText='宠物：'+p;function update(){document.getElementById('playerHP').innerText=hp;document.getElementById('enemyHP').innerText=ehp;const b=document.getElementById('skillBtn');b.disabled=cd>0;b.innerText=cd>0?'技能冷却中('+cd+')':'猛击';}function attack(base=wm[w],mul=1){if(hp<=0||ehp<=0)return;const dmg=Math.floor((Math.random()*5+base)*mul),pdmg=p==='小野狼'?(Math.random()<0.5?pm[p]:0):pm[p];ehp-=dmg+pdmg;if(ehp<0)ehp=0;const edmg=Math.floor(Math.random()*8+5);hp-=edmg;if(hp<0)hp=0;if(ehp===0){let g=parseInt(localStorage.getItem('金币')||0)+5;localStorage.setItem('金币',g);log.innerText='你胜利了！获得金币5。';}else if(hp===0){log.innerText='你失败了';}else{log.innerText=`你造成${dmg}，宠物${pdmg}，敌人造成${edmg}`;}if(cd>0)cd--;update();}function useSkill(){if(cd===0){cd=3;attack(wm[w],1.5);}}update();</script></body></html>
+<html><body><h2>战斗</h2><p>你HP:<span id='php'>100</span> 敌HP:<span id='ehp'>60</span></p>
+<p id='status'></p><button onclick='atk()'>攻击</button><button onclick='skill()' id='sk'>猛击</button>
+<div id='log'></div><script>
+let hp=100,ehp=60,cd=0;const wm={'铁剑':10,'烈焰斧':15,'猎弓':8},pm={'哈士奇':5,'猫咪':0,'小野狼':7};
+let w=localStorage.getItem('当前武器')||'铁剑',p=localStorage.getItem('当前宠物')||'哈士奇';
+let atkBonus=wm[w]+parseInt(localStorage.getItem('playerLevel')||1);
+let plvl=parseInt(localStorage.getItem('petLevel_'+p)||1),pXP=parseInt(localStorage.getItem('petXP_'+p)||0);
+function show(){document.getElementById('php').innerText=hp;document.getElementById('ehp').innerText=ehp;
+document.getElementById('sk').innerText=cd>0?"冷却("+cd+")":"猛击";document.getElementById('sk').disabled=cd>0;}
+function gainXP(){let lvl=parseInt(localStorage.getItem('playerLevel')||1),xp=parseInt(localStorage.getItem('playerXP')||0);
+xp+=10;if(xp>=30+lvl*10){lvl++;xp=0;alert("你升级了！等级："+lvl);}localStorage.setItem('playerLevel',lvl);
+localStorage.setItem('playerXP',xp);}
+function gainPetXP(){let key='petXP_'+p,lvl='petLevel_'+p,x=parseInt(localStorage.getItem(key)||0);
+let lv=parseInt(localStorage.getItem(lvl)||1);x+=5;if(x>=15){lv++;x=0;alert("宠物升级了！Lv."+lv);}
+localStorage.setItem(key,x);localStorage.setItem(lvl,lv);}
+function atk(mult=1){if(hp<=0||ehp<=0)return;let dmg=Math.floor((Math.random()*5+atkBonus)*mult);
+let pd=(p=='小野狼'&&Math.random()<0.5)?pm[p]+plvl:pm[p]+plvl;if(p=='猫咪'&&Math.random()<0.05)return log("猫咪闪避敌人攻击！");
+ehp-=dmg+pd;if(ehp<0)ehp=0;let ed=Math.floor(Math.random()*8+5);hp-=ed;if(hp<0)hp=0;
+if(ehp==0){log("胜利！+10经验 +5金币");gainXP();gainPetXP();localStorage.setItem('金币',parseInt(localStorage.getItem('金币')||0)+5);}
+else if(hp==0)log("你失败了。");else log(`你造成${dmg}，宠物${pd}，敌人打你${ed}`);if(cd>0)cd--;show();}
+function skill(){if(cd==0){cd=3;atk(1.5);}}function log(t){document.getElementById('log').innerText=t;}
+show();
+</script></body></html>
